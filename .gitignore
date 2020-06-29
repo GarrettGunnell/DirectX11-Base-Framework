@@ -1,0 +1,12 @@
+
+*.sln
+*.vcxproj
+*.filters
+*.user
+*.vs
+*.db
+*.ppm
+*.png
+*.tga
+*.txt
+Debug/
