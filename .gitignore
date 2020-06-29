@@ -3,7 +3,7 @@
 *.vcxproj
 *.filters
 *.user
-*.vs
+.vs/
 *.db
 *.ppm
 *.png
