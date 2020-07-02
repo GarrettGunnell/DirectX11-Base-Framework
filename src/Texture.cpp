@@ -15,9 +15,8 @@ bool Texture::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContex
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
 
 	result = LoadTarga(filename, height, width);
-	if (!result) {
+	if (!result)
 		return false;
-	}
 
 	textureDesc.Height = height;
 	textureDesc.Width = width;
@@ -32,9 +31,8 @@ bool Texture::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContex
 	textureDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
 	hResult = device->CreateTexture2D(&textureDesc, NULL, &texture);
-	if (FAILED(hResult)) {
+	if (FAILED(hResult))
 		return false;
-	}
 
 	rowPitch = (width * 4) * sizeof(unsigned char);
 
@@ -46,9 +44,8 @@ bool Texture::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContex
 	srvDesc.Texture2D.MipLevels = -1;
 
 	hResult = device->CreateShaderResourceView(texture, &srvDesc, &textureView);
-	if (FAILED(hResult)) {
+	if (FAILED(hResult))
 		return false;
-	}
 
 	deviceContext->GenerateMips(textureView);
 
@@ -87,43 +84,36 @@ bool Texture::LoadTarga(const char* filename, int& height, int& width) {
 	unsigned char* targaImage;
 
 	error = fopen_s(&filePtr, filename, "rb");
-	if (error != 0) {
+	if (error != 0)
 		return false;
-	}
 
 	count = (unsigned int)fread(&targaFileHeader, sizeof(TargaHeader), 1, filePtr);
-	if (count != 1) {
+	if (count != 1)
 		return false;
-	}
 
 	height = (int)targaFileHeader.height;
 	width = (int)targaFileHeader.width;
 	bpp = (int)targaFileHeader.bpp;
-	if (bpp != 32) {
+	if (bpp != 32)
 		return false;
-	}
 
 	imageSize = width * height * 4;
 
 	targaImage = new unsigned char[imageSize];
-	if (!targaImage) {
+	if (!targaImage)
 		return false;
-	}
 
 	count = (unsigned int)fread(targaImage, 1, imageSize, filePtr);
-	if (count != imageSize) {
+	if (count != imageSize)
 		return false;
-	}
 
 	error = fclose(filePtr);
-	if (error != 0) {
+	if (error != 0)
 		return false;
-	}
 
 	targaData = new unsigned char[imageSize];
-	if (!targaData) {
+	if (!targaData)
 		return false;
-	}
 
 	index = 0;
 	k = (width * height * 4) - (width * 4);

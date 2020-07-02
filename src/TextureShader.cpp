@@ -14,9 +14,8 @@ bool TextureShader::Initialize(ID3D11Device* device, HWND hwnd) {
 	bool result;
 
 	result = InitializeShader(device, hwnd, L"texture.vs", L"texture.ps");
-	if (!result) {
+	if (!result)
 		return false;
-	}
 
 	return true;
 }
@@ -29,9 +28,8 @@ bool TextureShader::Render(ID3D11DeviceContext* deviceContext, int indexCount, X
 	bool result;
 
 	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture);
-	if (!result) {
+	if (!result)
 		return false;
-	}
 
 	RenderShader(deviceContext, indexCount);
 
@@ -73,14 +71,12 @@ bool TextureShader::InitializeShader(ID3D11Device* device, HWND hwnd, const WCHA
 	}
 
 	result = device->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), NULL, &this->vertexShader);
-	if (FAILED(result)) {
+	if (FAILED(result))
 		return false;
-	}
 
 	result = device->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &this->pixelShader);
-	if (FAILED(result)) {
+	if (FAILED(result))
 		return false;
-	}
 
 	polygonLayout[0].SemanticName = "POSITION";
 	polygonLayout[0].SemanticIndex = 0;
@@ -100,9 +96,8 @@ bool TextureShader::InitializeShader(ID3D11Device* device, HWND hwnd, const WCHA
 
 	numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 	result = device->CreateInputLayout(polygonLayout, numElements, vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &this->layout);
-	if (FAILED(result)) {
+	if (FAILED(result))
 		return false;
-	}
 
 	vertexShaderBuffer->Release();
 	vertexShaderBuffer = nullptr;
@@ -118,9 +113,8 @@ bool TextureShader::InitializeShader(ID3D11Device* device, HWND hwnd, const WCHA
 	matrixBufferDesc.StructureByteStride = 0;
 
 	result = device->CreateBuffer(&matrixBufferDesc, NULL, &this->matrixBuffer);
-	if (FAILED(result)) {
+	if (FAILED(result))
 		return false;
-	}
 
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -139,9 +133,7 @@ bool TextureShader::InitializeShader(ID3D11Device* device, HWND hwnd, const WCHA
 	// Create the texture sampler state.
 	result = device->CreateSamplerState(&samplerDesc, &sampleState);
 	if (FAILED(result))
-	{
 		return false;
-	}
 
 	return true;
 }
@@ -215,9 +207,8 @@ bool TextureShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMA
 	projectionMatrix = XMMatrixTranspose(projectionMatrix);
 
 	result = deviceContext->Map(this->matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	if (FAILED(result)) {
+	if (FAILED(result))
 		return false;
-	}
 
 	matrixBufferPtr = (MatrixBuffer*)mappedResource.pData;
 

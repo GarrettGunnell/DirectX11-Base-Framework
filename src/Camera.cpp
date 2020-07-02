@@ -3,6 +3,7 @@
 Camera::Camera() {
 	positionX = positionY = positionZ = 0.0f;
 	rotationX = rotationY = rotationZ = 0.0f;
+	viewMatrix = XMMATRIX();
 }
 
 void Camera::SetPosition(float x, float y, float z) {

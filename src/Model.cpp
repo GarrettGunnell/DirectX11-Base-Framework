@@ -10,14 +10,12 @@ bool Model::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext,
 	bool result;
 
 	result = InitializeBuffers(device);
-	if (!result) {
+	if (!result)
 		return false;
-	}
 
 	result = LoadTexture(device, deviceContext, textureFilename);
-	if (!result) {
+	if (!result)
 		return false;
-	}
 
 	return true;
 }
@@ -46,30 +44,40 @@ bool Model::InitializeBuffers(ID3D11Device* device) {
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 	HRESULT result;
 
-	this->vertexCount = this->indexCount = 3;
+	this->vertexCount = this->indexCount = 6;
 
 	vertices = new Vertex[this->vertexCount];
-	if (!vertices) {
+	if (!vertices)
 		return false;
-	}
 
 	indices = new unsigned long[this->indexCount];
-	if (!indices) {
+	if (!indices)
 		return false;
-	}
 
 	vertices[0].position = XMFLOAT3(-1.0f, -1.0f, 0.0f);
 	vertices[0].texture = XMFLOAT2(0.0f, 1.0f);
 
-	vertices[1].position = XMFLOAT3(0.0f, 1.0f, 0.0f);
-	vertices[1].texture = XMFLOAT2(0.5f, 0.0f);
+	vertices[1].position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
+	vertices[1].texture = XMFLOAT2(0.0f, 0.0f);
 
 	vertices[2].position = XMFLOAT3(1.0f, -1.0f, 0.0f);
 	vertices[2].texture = XMFLOAT2(1.0f, 1.0f);
 
+	vertices[3].position = XMFLOAT3(1.0f, -1.0f, 0.0f);
+	vertices[3].texture = XMFLOAT2(1.0f, 1.0f);
+
+	vertices[4].position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
+	vertices[4].texture = XMFLOAT2(0.0f, 0.0f);
+
+	vertices[5].position = XMFLOAT3(1.0f, 1.0f, 0.0f);
+	vertices[5].texture = XMFLOAT2(1.0f, 0.0f);
+
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
+	indices[3] = 3;
+	indices[4] = 4;
+	indices[5] = 5;
 	
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexBufferDesc.ByteWidth = sizeof(Vertex) * this->vertexCount;
@@ -83,9 +91,8 @@ bool Model::InitializeBuffers(ID3D11Device* device) {
 	vertexData.SysMemSlicePitch = 0;
 
 	result = device->CreateBuffer(&vertexBufferDesc, &vertexData, &this->vertexBuffer);
-	if (FAILED(result)) {
+	if (FAILED(result))
 		return false;
-	}
 
 	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	indexBufferDesc.ByteWidth = sizeof(unsigned long) * this->indexCount;
@@ -99,9 +106,8 @@ bool Model::InitializeBuffers(ID3D11Device* device) {
 	indexData.SysMemSlicePitch = 0;
 
 	result = device->CreateBuffer(&indexBufferDesc, &indexData, &this->indexBuffer);
-	if (FAILED(result)) {
+	if (FAILED(result))
 		return false;
-	}
 
 	delete[] vertices;
 	delete[] indices;
@@ -138,14 +144,12 @@ void Model::RenderBuffers(ID3D11DeviceContext* deviceContext) {
 bool Model::LoadTexture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* filename) {
 	bool result;
 	texture = new Texture();
-	if (!texture) {
+	if (!texture)
 		return false;
-	}
 
 	result = texture->Initialize(device, deviceContext, filename);
-	if (!result) {
+	if (!result)
 		return false;
-	}
 
 	return true;
 }

@@ -135,12 +135,10 @@ bool D3D::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, b
     swapChainDesc.SampleDesc.Quality = 0;
 
 	// Set to full screen or windowed mode.
-	if(fullscreen) {
+	if(fullscreen)
 		swapChainDesc.Windowed = false;
-	}
-	else {
+	else
 		swapChainDesc.Windowed = true;
-	}
 
 	// Set the scan line ordering and scaling to unspecified.
 	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
@@ -300,42 +298,42 @@ void D3D::Shutdown() {
 
 	if(rasterState) {
 		rasterState->Release();
-		rasterState = 0;
+		rasterState = nullptr;
 	}
 
 	if(depthStencilView) {
 		depthStencilView->Release();
-		depthStencilView = 0;
+		depthStencilView = nullptr;
 	}
 
 	if(depthStencilState) {
 		depthStencilState->Release();
-		depthStencilState = 0;
+		depthStencilState = nullptr;
 	}
 
 	if(depthStencilBuffer) {
 		depthStencilBuffer->Release();
-		depthStencilBuffer = 0;
+		depthStencilBuffer = nullptr;
 	}
 
 	if(renderTargetView) {
 		renderTargetView->Release();
-		renderTargetView = 0;
+		renderTargetView = nullptr;
 	}
 
 	if(deviceContext) {
 		deviceContext->Release();
-		deviceContext = 0;
+		deviceContext = nullptr;
 	}
 
 	if(device) {
 		device->Release();
-		device = 0;
+		device = nullptr;
 	}
 
 	if(swapChain) {
 		swapChain->Release();
-		swapChain = 0;
+		swapChain = nullptr;
 	}
 }
 
@@ -343,8 +341,6 @@ void D3D::Shutdown() {
 void D3D::BeginScene(float red, float green, float blue, float alpha) {
 	float color[4];
 
-
-	// Setup the color to clear the buffer to.
 	color[0] = red;
 	color[1] = green;
 	color[2] = blue;

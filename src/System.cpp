@@ -1,17 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////
-// Filename: systemclass.cpp
-////////////////////////////////////////////////////////////////////////////////
 #include "System.h"
 
 
 System::System() {
-	input = 0;
-	graphics = 0;
+	input = nullptr;
+	graphics = nullptr;
 }
 
 
-bool System::Initialize()
-{
+bool System::Initialize() {
 	int screenWidth, screenHeight;
 	bool result;
 
@@ -25,55 +21,50 @@ bool System::Initialize()
 
 	// Create the input object.  This object will be used to handle reading the keyboard input from the user.
 	input = new Input();
-	if(!input)
-	{
+	if (!input)
 		return false;
-	}
 
 	// Initialize the input object.
 	input->Initialize();
 
 	// Create the graphics object.  This object will handle rendering all the graphics for this application.
 	graphics = new Graphics();
-	if(!graphics) {
+	if (!graphics)
 		return false;
-	}
 
 	// Initialize the graphics object.
 	result = graphics->Initialize(screenWidth, screenHeight, hwnd);
-	if(!result) {
+	if (!result)
 		return false;
-	}
 	
 	return true;
 }
 
 
 void System::Shutdown() {
-	if(graphics) {
+	if (graphics) {
 		graphics->Shutdown();
 		delete graphics;
-		graphics = 0;
+		graphics = nullptr;
 	}
 
-	if(input) {
+	if (input) {
 		delete input;
-		input = 0;
+		input = nullptr;
 	}
 
 	ShutdownWindows();
 }
 
 
-void System::Run()
-{
+void System::Run() {
 	MSG msg;
 	bool done, result;
 
 	ZeroMemory(&msg, sizeof(MSG));
 	
 	done = false;
-	while(!done) {
+	while (!done) {
 		// Handle the windows messages.
 		if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
@@ -81,15 +72,13 @@ void System::Run()
 		}
 
 		// If windows signals to end the application then exit out.
-		if(msg.message == WM_QUIT) {
+		if (msg.message == WM_QUIT) {
 			done = true;
-		}
-		else {
+		} else {
 			// Otherwise do the frame processing.
 			result = Frame();
-			if(!result) {
+			if(!result)
 				done = true;
-			}
 		}
 	}
 }
@@ -100,22 +89,20 @@ bool System::Frame() {
 
 
 	// Check if the user pressed escape and wants to exit the application.
-	if(input->IsKeyDown(VK_ESCAPE)) {
+	if(input->IsKeyDown(VK_ESCAPE))
 		return false;
-	}
 
 	// Do the frame processing for the graphics object.
 	result = graphics->Frame();
-	if(!result) {
+	if(!result)
 		return false;
-	}
 
 	return true;
 }
 
 
 LRESULT CALLBACK System::MessageHandler(HWND _hwnd, UINT umsg, WPARAM wparam, LPARAM lparam) {
-	switch(umsg) {
+	switch (umsg) {
 	case WM_KEYDOWN:
 		input->KeyDown((unsigned int)wparam);
 		return 0;
@@ -164,7 +151,7 @@ void System::InitializeWindows(int& screenWidth, int& screenHeight) {
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	// Setup the screen settings depending on whether it is running in full screen or in windowed mode.
-	if(FULL_SCREEN) {
+	if (FULL_SCREEN) {
 		// If full screen set the screen to maximum size of the users desktop and 32bit.
 		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 		dmScreenSettings.dmSize       = sizeof(dmScreenSettings);
@@ -178,8 +165,7 @@ void System::InitializeWindows(int& screenWidth, int& screenHeight) {
 
 		// Set the position of the window to the top left corner.
 		posX = posY = 0;
-	}
-	else {
+	} else {
 		// If windowed then set it to 800x600 resolution.
 		screenWidth  = 1600;
 		screenHeight = 900;
@@ -209,9 +195,8 @@ void System::ShutdownWindows() {
 	ShowCursor(true);
 
 	// Fix the display settings if leaving full screen mode.
-	if(FULL_SCREEN) {
+	if (FULL_SCREEN)
 		ChangeDisplaySettings(NULL, 0);
-	}
 
 	// Remove the window.
 	DestroyWindow(hwnd);
@@ -227,7 +212,7 @@ void System::ShutdownWindows() {
 
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam) {
-	switch(umessage) {
+	switch (umessage) {
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
