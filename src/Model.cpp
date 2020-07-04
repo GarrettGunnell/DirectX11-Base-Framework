@@ -4,6 +4,8 @@ Model::Model() {
 	vertexBuffer = nullptr;
 	indexBuffer = nullptr;
 	texture = nullptr;
+	indexCount = 0;
+	vertexCount = 0;
 }
 
 bool Model::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* textureFilename) {

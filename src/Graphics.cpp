@@ -28,7 +28,7 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd) {
 	camera->SetPosition(0.0f, 0.0f, -5.0f);
 
 	model = new Model;
-	result = model->Initialize(Direct3D->GetDevice(), Direct3D->GetDeviceContext(), "bird.tga");
+	result = model->Initialize(Direct3D->GetDevice(), Direct3D->GetDeviceContext(), "walt.tga");
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialize the model object", L"Error", MB_OK);
 		return false;
